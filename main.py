@@ -53,6 +53,12 @@ def scene(x, y):
         if d < 0.85:
             shadow = 0.08
         bg = vmul(base, 1.0 - shadow)
+        # soft drop shadow cast onto the table, just below the plate rim
+        dy_sh = (y - (py + ry * 0.82)) / (ry * 0.28)
+        dx_sh = (x - px) / (rx * 1.05)
+        if dy_sh > 0.0 and dx_sh * dx_sh < 1.0:
+            sh = clamp(1.0 - dy_sh) * (1.0 - dx_sh * dx_sh) * 0.45
+            bg = vmul(bg, 1.0 - sh)
     # food cluster centered at (0.5, 0.40)
     fx, fy = 0.5, 0.40
     # --- pancake stack: 4 ellipses stacked ---
